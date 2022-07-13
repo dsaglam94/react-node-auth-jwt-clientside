@@ -6,7 +6,7 @@ export function AuthContextProvider({ children }) {
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [errorUserName, setErrorUserName] = useState("");
-  const [loggedIn, setLoggedIn] = useState(null);
+  // const [loggedIn, setLoggedIn] = useState(null);
   const [user, setUser] = useState({});
 
   const navigate = useNavigate();
@@ -58,7 +58,8 @@ export function AuthContextProvider({ children }) {
         setErrorUserName(data.errors.username);
         setErrorPassword(data.errors.password);
       }
-      if (data.user) {
+      if (data.loggedIn) {
+        setUser({ ...data });
         navigate("/");
       }
     } catch (error) {
@@ -93,7 +94,6 @@ export function AuthContextProvider({ children }) {
 
       if (data.loggedIn) {
         setUser({ ...data });
-        setLoggedIn(true);
         navigate("/");
       }
     } catch (error) {
@@ -110,8 +110,7 @@ export function AuthContextProvider({ children }) {
       const data = await res.json();
       console.log(data);
       if (data.loggedIn === false) {
-        setUser({});
-        setLoggedIn(false);
+        setUser({ ...data });
         navigate("/");
       }
     } catch (error) {
@@ -126,7 +125,6 @@ export function AuthContextProvider({ children }) {
         logIn,
         logOut,
         user,
-        loggedIn,
         errorEmail,
         errorPassword,
         errorUserName,

@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { UserAuth } from "../component/context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const [userName, setUserName] = useState("");
@@ -8,7 +10,13 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signUp, errorEmail, errorPassword, errorUserName } = UserAuth();
+  const navigate = useNavigate();
+  const { signUp, errorEmail, errorPassword, errorUserName, user } = UserAuth();
+  useEffect(() => {
+    if (user.loggedIn) {
+      navigate("/");
+    }
+  }, [user.username]);
   return (
     <section className="w-full h-[72vh] flex items-center justify-center">
       <div className="w-[90%] max-w-[1200px] mx-auto flex md:flex-row items-center justify-center">

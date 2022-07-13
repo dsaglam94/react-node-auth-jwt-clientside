@@ -1,12 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { UserAuth } from "../component/context/AuthContext";
+import { useNavigate } from "react-router-dom";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const { errorEmail, errorPassword, logIn } = UserAuth();
+  const { errorEmail, errorPassword, logIn, user } = UserAuth();
   console.log(errorPassword);
+  useEffect(() => {
+    if (user.loggedIn) {
+      navigate("/");
+    }
+  }, [user.username]);
   return (
     <section className="w-full h-[72vh] flex items-center justify-center">
       <div className="w-[90%] max-w-[1200px] mx-auto flex md:flex-row items-center justify-center">

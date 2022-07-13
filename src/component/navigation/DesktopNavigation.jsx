@@ -2,7 +2,7 @@ import logo from "../../assets/logo.svg";
 import { Link } from "react-router-dom";
 import { UserAuth } from "../context/AuthContext";
 const DesktopNavigation = () => {
-  const { logOut, loggedIn, user } = UserAuth();
+  const { logOut, user } = UserAuth();
 
   return (
     <header className="w-full shadow-xl py-5">
