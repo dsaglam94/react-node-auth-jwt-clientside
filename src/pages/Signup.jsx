@@ -8,11 +8,11 @@ const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signUp } = UserAuth();
+  const { signUp, errorEmail, errorPassword, errorUserName } = UserAuth();
   return (
     <section className="w-full h-[72vh] flex items-center justify-center">
       <div className="w-[90%] max-w-[1200px] mx-auto flex md:flex-row items-center justify-center">
-        <div className="p-10 rounded-md shadow-2xl">
+        <div className="py-10 px-14 rounded-md shadow-2xl">
           <h1 className="font-bold text-2xl pb-5">Sign up</h1>
           <form
             onSubmit={(e) => signUp(e, userName, fullName, email, password)}
@@ -29,6 +29,7 @@ const Signup = () => {
               placeholder="Enter your username"
               required
             />
+            <span className="text-red-500 text-sm">{errorUserName}</span>
             <label className="font-bold" htmlFor="fullname">
               Full Name
             </label>
@@ -37,9 +38,10 @@ const Signup = () => {
               className="p-2 border-2 border-black rounded-md focus:bg-yellow-300 focus:border-transparent focus:outline-none"
               type="text"
               id="fullname"
-              placeholder="Enter your email"
+              placeholder="Enter your name"
               required
             />
+
             <label className="font-bold" htmlFor="email">
               Email
             </label>
@@ -51,6 +53,7 @@ const Signup = () => {
               placeholder="Enter your email"
               required
             />
+            <span className="text-red-500 text-sm">{errorEmail}</span>
             <label className="font-bold" htmlFor="password">
               Password
             </label>
@@ -62,6 +65,7 @@ const Signup = () => {
               placeholder="Enter your password"
               required
             />
+            <span className="text-red-500 text-sm">{errorPassword}</span>
             <button className="font-bold bg-yellow-300 w-full py-2 rounded-md mt-10 hover:rounded-full hover:text-red-400 focus:rounded-full focus:text-red-400 focus:outline-none">
               Sign up
             </button>

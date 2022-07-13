@@ -1,33 +1,46 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import { UserAuth } from "../component/context/AuthContext";
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const { errorEmail, errorPassword, logIn } = UserAuth();
+  console.log(errorPassword);
   return (
     <section className="w-full h-[72vh] flex items-center justify-center">
       <div className="w-[90%] max-w-[1200px] mx-auto flex md:flex-row items-center justify-center">
-        <div className="p-10 rounded-md shadow-2xl">
+        <div className="py-10 px-14 rounded-md shadow-2xl">
           <h1 className="font-bold text-2xl pb-5">Log in</h1>
 
-          <form className="flex flex-col items-start gap-2 ">
+          <form
+            onSubmit={(e) => logIn(e, email, password)}
+            className="flex flex-col items-start gap-2 "
+          >
             <label className="font-bold" htmlFor="email">
               Email
             </label>
             <input
+              onChange={(e) => setEmail(e.target.value)}
               className="p-2 border-2 border-black rounded-md focus:bg-yellow-300 focus:border-transparent focus:outline-none"
               type="email"
               id="email"
               placeholder="Enter your email"
               required
             />
+            <span className="text-red-500 text-sm">{errorEmail}</span>
             <label className="font-bold" htmlFor="password">
               Password
             </label>
             <input
+              onChange={(e) => setPassword(e.target.value)}
               className="p-2 border-2 border-black rounded-md focus:bg-yellow-300 focus:border-transparent focus:outline-none"
               type="password"
               id="password"
               placeholder="Enter your password"
               required
             />
+            <span className="text-red-500 text-sm">{errorPassword}</span>
             <button className="font-bold bg-yellow-300 w-full py-2 rounded-md mt-10 hover:rounded-full hover:text-red-400 focus:rounded-full focus:text-red-400 focus:outline-none">
               Log in
             </button>
