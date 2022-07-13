@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
+import { UserAuth } from "../component/context/AuthContext";
 
-const Recipes = () => {
+const Account = () => {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { user } = UserAuth();
+
   const getRecipes = async () => {
     try {
-      const res = await fetch("http://localhost:3001/recipes", {
+      const res = await fetch("http://localhost:3001/account", {
         credentials: "include",
       });
       const data = await res.json();
@@ -33,8 +36,8 @@ const Recipes = () => {
         </div>
       ) : (
         <section className="w-full h-[72vh] flex items-center justify-center">
-          <div className="w-[90%] max-w-[1200px] mx-auto flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-5">
-            <h1>Recipes</h1>
+          <div className="w-[90%] max-w-[1200px] mx-auto flex items-center justify-center">
+            <h1 className="text-6xl">Hello {user.username}</h1>
           </div>
         </section>
       )}
@@ -42,4 +45,4 @@ const Recipes = () => {
   );
 };
 
-export default Recipes;
+export default Account;

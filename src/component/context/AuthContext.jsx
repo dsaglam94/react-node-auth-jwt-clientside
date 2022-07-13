@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 const AuthContext = createContext();
 
@@ -6,9 +6,31 @@ export function AuthContextProvider({ children }) {
   const [errorEmail, setErrorEmail] = useState("");
   const [errorPassword, setErrorPassword] = useState("");
   const [errorUserName, setErrorUserName] = useState("");
+  const [loggedIn, setLoggedIn] = useState(null);
+  const [user, setUser] = useState({});
 
   const navigate = useNavigate();
 
+  // log in user on page load
+  async function fetchUserCredentials() {
+    try {
+      const res = await fetch("http://localhost:3001/login", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      console.log(data);
+      setUser({ ...data });
+    } catch (error) {
+      console.log("something happened while fetching login credentials");
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchUserCredentials();
+  }, [user?.email]);
+
+  console.log(user);
   //   Sign up the user
   const signUp = async (e, userName, fullName, email, password) => {
     e.preventDefault();
@@ -69,7 +91,27 @@ export function AuthContextProvider({ children }) {
         setErrorPassword(data.errors.password);
       }
 
-      if (data.user) {
+      if (data.loggedIn) {
+        setUser({ ...data });
+        setLoggedIn(true);
+        navigate("/");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // log out the user
+  const logOut = async () => {
+    try {
+      const res = await fetch("http://localhost:3001/logout", {
+        credentials: "include",
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.loggedIn === false) {
+        setUser({});
+        setLoggedIn(false);
         navigate("/");
       }
     } catch (error) {
@@ -79,7 +121,16 @@ export function AuthContextProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ signUp, logIn, errorEmail, errorPassword, errorUserName }}
+      value={{
+        signUp,
+        logIn,
+        logOut,
+        user,
+        loggedIn,
+        errorEmail,
+        errorPassword,
+        errorUserName,
+      }}
     >
       {children}
     </AuthContext.Provider>

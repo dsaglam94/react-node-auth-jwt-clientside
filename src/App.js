@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Recipes from "./pages/Recipes";
 import Signup from "./pages/Signup";
 import { AuthContextProvider } from "./component/context/AuthContext";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/dashboard" element={<AdminDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/account" element={<Account />} />
         </Routes>
       </Layout>
     </AuthContextProvider>
